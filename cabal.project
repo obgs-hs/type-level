@@ -1,0 +1,4 @@
+packages:
+  .
+constraints: finitary -vector
+write-ghc-environment-files: always

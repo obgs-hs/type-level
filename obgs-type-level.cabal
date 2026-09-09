@@ -1,0 +1,125 @@
+cabal-version:      3.4
+name:               obgs-type-level
+version:            0.1.0.0
+synopsis:
+    Type families and first-class families for type-level programming
+description:
+    Type families and first-class families for type-level programming. Built on
+    top of @first-class-families@.
+    .
+    The modules fall into five groups:
+    .
+    * @Obgs.Fcf.*@: first-class families for working with the standard types
+      and classes, adding branching, constraints, and @Enum@, @Num@ and
+      @Finitary@ type-level counterparts.
+    * @Obgs.TL.*@: type utilities for working with lists, tuples, @Maybe@s,
+      @Nat@s, @Constraint@s and @Type@s.
+    * @Obgs.TL.Error@: type utilities for building @ErrorMessage@s.
+    * @Obgs.TL.Finitary@: a type-level variant of @Data.Finitary.Finitary@.
+    * @Obgs.TL.Integral@: a representation of @Integral@ numbers that can be
+      promoted to the type level.
+    .
+    Written for OBGS, a set of packages for describing type-safe board game
+    score sheets declaratively, but self-contained and independent of the rest.
+
+homepage:           https://github.com/blmage/obgs-type-level
+bug-reports:        https://github.com/blmage/obgs-type-level/issues
+license:            MIT
+license-file:       LICENSE
+author:             blmage
+maintainer:         benoit.leulliette@gmail.com
+copyright:          (c) Benoît Leulliette, 2026
+category:           Language
+build-type:         Simple
+tested-with:        GHC == 9.12.2
+extra-doc-files:
+    CHANGELOG.md
+    README.md
+    assets/obgs-mark-light.svg
+    assets/obgs-mark-dark.svg
+
+common warnings
+    ghc-options: -Wall
+
+library
+    import:           warnings
+    exposed-modules:
+        Obgs.Fcf.Bool
+        Obgs.Fcf.Branch
+        Obgs.Fcf.Combinators
+        Obgs.Fcf.Constraint
+        Obgs.Fcf.Enum
+        Obgs.Fcf.Finitary
+        Obgs.Fcf.Foldable
+        Obgs.Fcf.Integral
+        Obgs.Fcf.List
+        Obgs.Fcf.List.NonEmpty
+        Obgs.Fcf.List.Sort
+        Obgs.Fcf.Maybe
+        Obgs.Fcf.Nat
+        Obgs.Fcf.Num
+        Obgs.Fcf.Ord
+        Obgs.Fcf.Tuple
+        Obgs.TL.Constraint
+        Obgs.TL.Error
+        Obgs.TL.Finitary
+        Obgs.TL.Integral
+        Obgs.TL.List
+        Obgs.TL.Maybe
+        Obgs.TL.Nat
+        Obgs.TL.Tuple
+        Obgs.TL.Type
+    build-depends:    
+        base ^>= 4.21.0.0,
+        constraints ^>= 0.14.4,
+        finitary ^>= 2.2.0.1,
+        finite-typelits ^>= 0.2.1.0,
+        first-class-families ^>= 0.8.2.0,
+        singletons-base ^>= 3.5,
+        template-haskell ^>= 2.23.0.0
+    hs-source-dirs:   src
+    default-language: GHC2024
+    default-extensions:
+        NoStarIsType
+        TypeFamilies
+
+test-suite obgs-type-level-test-doctests
+    import:           warnings
+    default-language: GHC2024
+    type:             exitcode-stdio-1.0
+    hs-source-dirs:   test/doctests/
+    main-is:          Main.hs
+    ghc-options:      -threaded
+    build-depends:
+        base ^>= 4.21.0.0,
+        doctest-parallel ^>= 0.4.1,
+        obgs-type-level
+
+test-suite obgs-type-level-test-specs
+    import:           warnings
+    other-modules:
+        Obgs.Fcf.EnumSpecs
+        Obgs.TL.FinitarySpecs
+        Obgs.TL.IntegralSpecs
+    default-language: GHC2024
+    type:             exitcode-stdio-1.0
+    hs-source-dirs:   test/specs/
+    main-is:          Main.hs
+    ghc-options:      -threaded
+    build-depends:
+        base ^>= 4.21.0.0,
+        constraints ^>= 0.14.4,
+        finitary ^>= 2.2.0.1,
+        finite-typelits ^>= 0.2.1.0,
+        first-class-families ^>= 0.8.2.0,
+        hspec ^>= 2.11.9,
+        obgs-type-level,
+        QuickCheck ^>= 2.18,
+        singletons-base ^>= 3.5
+    default-extensions:
+        NoStarIsType
+        TypeFamilies
+
+source-repository head
+    type:     git
+    location: https://github.com/blmage/obgs-type-level

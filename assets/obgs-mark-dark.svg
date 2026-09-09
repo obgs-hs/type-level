@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+     role="img" aria-label="OBGS"
+     fill="none" stroke="#eae7f0" stroke-linejoin="round" stroke-linecap="round">
+  <!-- True isometric cube, edge s = 10.4, front-top corner C = (12,12).
+       Axes:  u = (0.866,-0.5)s   v = (-0.866,-0.5)s   w = (0,1)s
+       Face maps, a and b in [0,1]:
+         top    (12 + 9.01a - 9.01b,  12 - 5.2a - 5.2b)
+         left   (12 - 9.01a,          12 - 5.2a + 10.4b)
+         right  (12 + 9.01a,          12 - 5.2a + 10.4b) -->
+  <path d="M12 1.6 21.01 6.8v10.4L12 22.4 2.99 17.2V6.8Z" stroke-width=".95"/>
+  <path d="M2.99 6.8 12 12l9.01-5.2M12 12v10.4" stroke-width=".95"/>
+  <ellipse cx="12" cy="4.51" rx="1.1" ry=".64" fill="#eae7f0" stroke="none"/>
+  <ellipse cx="12" cy="6.8"  rx="1.1" ry=".64" fill="#eae7f0" stroke="none"/>
+  <ellipse cx="12" cy="9.09" rx="1.1" ry=".64" fill="#eae7f0" stroke="none"/>
+  <ellipse rx="1.1" ry=".64" transform="translate(9.30 13.56) rotate(60)" fill="#eae7f0" stroke="none"/>
+  <ellipse rx="1.1" ry=".64" transform="translate(5.69 15.64) rotate(60)" fill="#eae7f0" stroke="none"/>
+  <path d="M18.13 10.75 14.70 18.55M16.59 14.26 18.85 16.16" stroke-width="1.35"/>
+</svg>
