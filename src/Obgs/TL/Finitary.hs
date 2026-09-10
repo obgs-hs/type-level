@@ -85,7 +85,7 @@ type Indices a =
 -- /Default implementations of each associated type family expect type __@a@__/
 -- /to have instances of 'PBounded' and\/or 'PEnum',/
 -- /and 'FromEnum' indices to be __0-based__ and __monotonically increasing__./
-class PFinitary (a :: Type) where
+class (Finitary a) => PFinitary (a :: Type) where
   -- | A type-level variant of 'Data.Finitary.start'.
   type Start :: a
 
@@ -169,6 +169,7 @@ instance (PFinitary a, PFinitary b) => PFinitary (a, b)
 
 instance
   ( Finitary a,
+    TI.ToTypeIntegral a,
     PEnum (TypeIntegral a),
     PBounded (TypeIntegral a)
   ) =>
