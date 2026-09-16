@@ -31,7 +31,7 @@ maintainer:         benoit.leulliette@gmail.com
 copyright:          (c) Benoît Leulliette, 2026
 category:           Language
 build-type:         Simple
-tested-with:        GHC == 9.12.2
+tested-with:        GHC == 9.12.2 || == 9.14.1
 extra-doc-files:
     CHANGELOG.md
     README.md
@@ -70,13 +70,13 @@ library
         Obgs.TL.Tuple
         Obgs.TL.Type
     build-depends:    
-        base ^>= 4.21.0.0,
+        base >= 4.21 && < 4.23,
         constraints ^>= 0.14.4,
         finitary ^>= 2.2.0.1,
         finite-typelits ^>= 0.2.1.0,
         first-class-families ^>= 0.8.2.0,
         singletons-base ^>= 3.5,
-        template-haskell ^>= 2.23.0.0
+        template-haskell >= 2.23 && < 2.25
     hs-source-dirs:   src
     default-language: GHC2024
     default-extensions:
@@ -91,7 +91,7 @@ test-suite obgs-type-level-test-doctests
     main-is:          Main.hs
     ghc-options:      -threaded
     build-depends:
-        base ^>= 4.21.0.0,
+        base >= 4.21 && < 4.23,
         doctest-parallel ^>= 0.4.1,
         obgs-type-level
 
@@ -107,7 +107,7 @@ test-suite obgs-type-level-test-specs
     main-is:          Main.hs
     ghc-options:      -threaded
     build-depends:
-        base ^>= 4.21.0.0,
+        base >= 4.21 && < 4.23,
         constraints ^>= 0.14.4,
         finitary ^>= 2.2.0.1,
         finite-typelits ^>= 0.2.1.0,
