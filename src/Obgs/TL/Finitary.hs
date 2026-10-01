@@ -142,7 +142,7 @@ instance PFinitary Bool
 
 instance PFinitary Char
 
-instance (PFinitary a) => PFinitary (Maybe a) where
+instance (PFinitary a, Finitary (Maybe a)) => PFinitary (Maybe a) where
   type Start = 'Nothing
 
   type End = 'Just End
@@ -165,7 +165,7 @@ instance (PFinitary a) => PFinitary (Maybe a) where
   type InhabitantsFromTo ('Just from) 'Nothing = '[]
   type InhabitantsFromTo ('Just from) ('Just to) = Map 'Just (InhabitantsFromTo from to)
 
-instance (PFinitary a, PFinitary b) => PFinitary (a, b)
+instance (PFinitary a, PFinitary b, Finitary (a, b)) => PFinitary (a, b)
 
 instance
   ( Finitary a,
