@@ -19,6 +19,7 @@ module Obgs.TL.Error
     PprList,
     PprListH,
     PprListV,
+    PprMessagesV,
     IndentMessage,
     (:$>:),
     (:>>:),
@@ -142,6 +143,23 @@ type family PprListV (as :: [k]) :: ErrorMessage where
     Text "'[ "
       :<>: ShowType a
       :$$: Foldr1 (:$$:) (Map ((:<>:) (Text " , ")) (Map ShowType as))
+      :$$: Text " ]"
+
+-- | Pretty-prints a list of 'ErrorMessage's vertically.
+--
+-- >>> :kind! PprMessagesV '[Text "a", Text "b"]
+-- ...
+-- = ((Text "'[ " :<>: Text "a") :$$: (Text " , " :<>: Text "b"))
+--   :$$: Text " ]"
+type family PprMessagesV (messages :: [ErrorMessage]) :: ErrorMessage where
+  PprMessagesV '[] =
+    Text "'[]"
+  PprMessagesV '[message] =
+    Text "'[ " :<>: message :<>: Text " ]"
+  PprMessagesV (message ': messages) =
+    Text "'[ "
+      :<>: message
+      :$$: Foldr1 (:$$:) (Map ((:<>:) (Text " , ")) messages)
       :$$: Text " ]"
 
 -- | Indents an 'ErrorMessage' by a given level (using 2 spaces per level).
