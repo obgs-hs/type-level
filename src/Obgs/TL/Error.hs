@@ -176,6 +176,8 @@ type family IndentMessage (level :: Nat) (message :: ErrorMessage) :: ErrorMessa
     message
   IndentMessage level (top :$$: bottom) =
     IndentMessage level top :$$: IndentMessage level bottom
+  IndentMessage 1 message =
+    Text "  " :<>: message
   IndentMessage level message =
     Foldr (:<>:) message (Replicate level (Text "  "))
 
