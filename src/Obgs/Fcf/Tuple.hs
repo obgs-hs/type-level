@@ -1,3 +1,5 @@
+{-# LANGUAGE TypeFamilies #-}
+
 -- |
 -- Module      : $Header$
 -- Description : First-class families for working with tuples.

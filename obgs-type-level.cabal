@@ -79,9 +79,6 @@ library
         template-haskell >= 2.23 && < 2.25
     hs-source-dirs:   src
     default-language: GHC2024
-    default-extensions:
-        NoStarIsType
-        TypeFamilies
 
 test-suite obgs-type-level-test-doctests
     import:           warnings
@@ -116,9 +113,6 @@ test-suite obgs-type-level-test-specs
         obgs-type-level,
         QuickCheck ^>= 2.18,
         singletons-base ^>= 3.5
-    default-extensions:
-        NoStarIsType
-        TypeFamilies
 
 source-repository head
     type:     git

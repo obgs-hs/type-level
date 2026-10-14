@@ -1,3 +1,5 @@
+{-# LANGUAGE NoStarIsType #-}
+{-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 -- |

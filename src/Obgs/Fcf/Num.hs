@@ -1,3 +1,6 @@
+{-# LANGUAGE NoStarIsType #-}
+{-# LANGUAGE TypeFamilies #-}
+
 -- |
 -- Module      : $Header$
 -- Description : First-class families for working with 'Num' types.
@@ -29,6 +32,7 @@ import Prelude.Singletons qualified as Sing
 -- See the note in 'Obgs.Fcf.Bool' for why the $setup block imports modules it does not use.
 
 -- $setup
+-- >>> :set -XNoStarIsType
 -- >>> :m +Fcf.Core
 -- >>> :m +Fcf.Combinators
 -- >>> :m +Fcf.Class.Bifunctor

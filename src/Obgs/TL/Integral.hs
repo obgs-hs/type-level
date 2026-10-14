@@ -1,8 +1,10 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE DefaultSignatures #-}
 {-# LANGUAGE MultiWayIf #-}
+{-# LANGUAGE NoStarIsType #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeAbstractions #-}
+{-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE ViewPatterns #-}
 
