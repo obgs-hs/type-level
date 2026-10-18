@@ -1,12 +1,12 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE DefaultSignatures #-}
 {-# LANGUAGE MultiWayIf #-}
-{-# LANGUAGE NoStarIsType #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeAbstractions #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE ViewPatterns #-}
+{-# LANGUAGE NoStarIsType #-}
 
 -- |
 -- Module      : $Header$
@@ -73,7 +73,7 @@ import Obgs.Fcf.Maybe qualified as Fcf
 import Obgs.Fcf.Ord qualified as Fcf
 import Obgs.TL.Error (ErrorMessage (..), TypeError, type (:$>:))
 import Obgs.TL.Error qualified as TE
-import Obgs.TL.Nat (Div, KnownNat)
+import Obgs.TL.Nat (Div, KnownNat, type (>=?))
 import Obgs.TL.Type (type ($))
 import Prelude.Singletons hiding (type ($), type (+), type (-), type (=<<), type (@@))
 import Prelude.Singletons qualified as Sing
@@ -935,11 +935,37 @@ type family PlusMaybe (n :: Nat) :: Maybe (TypeIntegral a) where
 -- | Returns all possible 'TypeIntegral's for type __@a@__.
 type family Inhabitants (a :: Type) :: [TypeIntegral a] where
   Inhabitants a =
-     Fcf.IterateN UnsafeInc (MinBound @(TypeIntegral a))
-       @@ (Cardinality (TypeIntegral a) - 1)
+    Fcf.IterateN UnsafeInc (MinBound @(TypeIntegral a))
+      @@ (Cardinality (TypeIntegral a) - 1)
 
 -- | Returns the absolute 'Nat' value of a 'TypeIntegral'.
 type family NatValue (n :: TypeIntegral a) :: Nat where
   NatValue ('Minus n) = n + 1
   NatValue 'Zero = 0
   NatValue ('Plus n) = n + 1
+
+instance PShow (TypeIntegral a) where
+  type
+    ShowsPrec _ 'Zero s =
+      ShowString "Zero" s
+  type
+    ShowsPrec d ('Plus n) s =
+      Eval
+        ( Fcf.If
+            (10 >=? d)
+            (ShowsSigned "Plus " (n + 1) s)
+            (ShowsSigned "(Plus " (n + 1) (ShowString ")" s))
+        )
+  type
+    ShowsPrec d ('Minus n) s =
+      Eval
+        ( Fcf.If
+            (10 >=? d)
+            (ShowsSigned "Minus " (n + 1) s)
+            (ShowsSigned "(Minus " (n + 1) (ShowString ")" s))
+        )
+
+-- | Shows a sign then a 'Nat' before some 'Symbol'.
+data ShowsSigned :: Symbol -> Nat -> Symbol -> Exp Symbol
+
+type instance Eval (ShowsSigned sign n s) = ShowString sign (ShowsPrec 11 n s)
