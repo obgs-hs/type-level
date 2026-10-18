@@ -16,6 +16,7 @@
 -- This module also introduces orphan 'PBounded' and 'PEnum' instances for 'Maybe'.
 module Obgs.TL.Maybe
   ( -- * Type-level variants
+    FromJust,
     FromMaybe,
     type (<|>),
 
@@ -37,6 +38,14 @@ import Obgs.Fcf.Enum qualified as Fcf
 import Obgs.TL.List (Map)
 import Obgs.TL.Nat (type (+), type (-))
 import Obgs.TL.Type (type (==))
+
+-- | A type-level variant of 'Data.Maybe.fromJust', stuck on 'Nothing'.
+--
+-- >>> :kind! FromJust ('Just 1)
+-- ...
+-- = 1
+type family FromJust (x :: Maybe a) :: a where
+  FromJust ('Just x) = x
 
 -- | A type-level variant of 'Data.Maybe.fromMaybe'.
 type family FromMaybe (z :: a) (x :: Maybe a) :: a where
