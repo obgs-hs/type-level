@@ -17,6 +17,7 @@ module Obgs.TL.Error
     ShowOrdinal,
     ShowTypeParened,
     ShowTypeQuoted,
+    ShowValue,
     PprList,
     PprListH,
     PprListV,
@@ -43,6 +44,7 @@ import GHC.TypeError qualified as TE
 import GHC.TypeLits (AppendSymbol, Symbol)
 import Obgs.TL.List (Foldr, Foldr1, Length, Map, Replicate)
 import Obgs.TL.Nat (Mod, Nat, type (<=?))
+import Text.Show.Singletons (PShow (Show_))
 
 -- See the note in 'Obgs.Fcf.Bool' for why the $setup block imports modules it does not use.
 
@@ -100,6 +102,10 @@ type family ShowTypeQuoted a :: ErrorMessage where
   ShowTypeQuoted a = Text "`" :<>: ShowType a :<>: Text "'"
 
 type ShowTypeQuoted :: k -> ErrorMessage
+
+-- | Shows a type-level value for use in an 'ErrorMessage', through the
+-- 'PShow' instance of its kind.
+type ShowValue (x :: k) = Text (Show_ x)
 
 -- | Pretty-prints a list of types for use in an 'ErrorMessage'.
 --
