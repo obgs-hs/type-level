@@ -26,12 +26,19 @@ module Obgs.Fcf.Constraint
     BothC,
     Both3C,
     All1C,
+
+    -- * Unsatisfiable constraints
+    UnsatisfiableWhen,
+    UnsatisfiableUnless,
+    UnsatisfiableWhenM,
+    UnsatisfiableUnlessM,
   )
 where
 
 import Data.Constraint (Constraint)
 import Fcf (Eval, Exp, Flip, Pure1, type (=<<))
 import Fcf.Class.Functor (FMap)
+import GHC.TypeError (ErrorMessage, Unsatisfiable)
 import Obgs.Fcf.List (Sequence)
 import Prelude (Bool (..))
 
@@ -131,3 +138,27 @@ type instance Eval (AllC (c ': cs)) = (c, Eval (AllC cs))
 data All1C :: (a -> Exp Constraint) -> [a] -> Exp Constraint
 
 type instance Eval (All1C c as) = Eval (AllC =<< Sequence =<< FMap (Pure1 c) as)
+
+-- | Triggers an 'Unsatisfiable' 'Constraint' when a predicate is 'True'.
+data UnsatisfiableWhen :: Bool -> Exp ErrorMessage -> Exp Constraint
+
+type instance Eval (UnsatisfiableWhen 'True msg) = Unsatisfiable (Eval msg)
+
+type instance Eval (UnsatisfiableWhen 'False _) = ()
+
+-- | Triggers an 'Unsatisfiable' 'Constraint' when a predicate is 'False'.
+data UnsatisfiableUnless :: Bool -> Exp ErrorMessage -> Exp Constraint
+
+type instance Eval (UnsatisfiableUnless 'True _) = ()
+
+type instance Eval (UnsatisfiableUnless 'False msg) = Unsatisfiable (Eval msg)
+
+-- | Triggers an 'Unsatisfiable' 'Constraint' when a lifted predicate is 'True'.
+data UnsatisfiableWhenM :: Exp Bool -> Exp ErrorMessage -> Exp Constraint
+
+type instance Eval (UnsatisfiableWhenM p msg) = Eval (Flip UnsatisfiableWhen msg =<< p)
+
+-- | Triggers an 'Unsatisfiable' 'Constraint' when a lifted predicate is 'False'.
+data UnsatisfiableUnlessM :: Exp Bool -> Exp ErrorMessage -> Exp Constraint
+
+type instance Eval (UnsatisfiableUnlessM p msg) = Eval (Flip UnsatisfiableUnless msg =<< p)
