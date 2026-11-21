@@ -83,7 +83,6 @@ infixl 9 !?
 -- = [1, 2, 3, 4]
 type family (++) (as :: [k]) (bs :: [k]) :: [k] where
   '[] ++ bs = bs
-  as ++ '[] = as
   (a ': as) ++ bs = a ': (as ++ bs)
 
 infixr 5 ++
